@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Vagas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form_cadastro {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .result-list {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        form {
+            display: grid;
+            gap: 10px;
+            max-width: 800px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        input, select, textarea {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .error {
+            color: red;
+            margin-bottom: 10px;
+        }
+        #id_detalhes, #id_observacoes {
+            height: 120px;
+            resize: vertical;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cadastro de vagas</h1>
+
+    <div class="form_cadastro">
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+
+        <form action="{% url 'home' %}" method="post">
+            {% csrf_token %}
+            <div>
+                <label for="id_nome_da_vaga">{{ form.nome_da_vaga.label }}:</label>
+                {{ form.nome_da_vaga }}
+            </div>
+            <div>
+                <label for="id_nome_da_empresa">{{ form.nome_da_empresa.label }}:</label>
+                {{ form.nome_da_empresa }}
+            </div>
+            <div>
+                <label for="id_link_da_vaga">{{ form.link_da_vaga.label }}:</label>
+                {{ form.link_da_vaga }}
+            </div>
+            <div>
+                <label for="id_descricao_da_vaga">{{ form.descricao_da_vaga.label }}:</label>
+                {{ form.descricao_da_vaga }}
+            </div>
+            <div>
+                <label for="id_responsavel_pela_vaga">{{ form.responsavel_pela_vaga.label }}:</label>
+                {{ form.responsavel_pela_vaga }}
+            </div>
+            <div>
+                <label for="id_detalhes">{{ form.detalhes.label }}:</label>
+                {{ form.detalhes }}
+            </div>
+            <div>
+                <label for="id_observacoes">{{ form.observacoes.label }}:</label>
+                {{ form.observacoes }}
+            </div>
+            <button type="submit">Cadastrar</button>
+        </form>
+    </div>
+
+    <div class="result-list">
+        <h2>Vagas Recentes</h2>
+        {% if lista_de_vagas %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome da Vaga</th>
+                    <th>Nome da Empresa</th>
+                    <th>Link da Vaga</th>
+                    <th>Descrição</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vaga in lista_de_vagas %}
+                <tr>
+                    <td>{{ vaga.nome_da_vaga }}</td>
+                    <td>{{ vaga.nome_da_empresa }}</td>
+                    <td>{{ vaga.link_da_vaga }}</td>
+                    <td>{{ vaga.descricao_da_vaga }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>Sem Vagas Cadastrados</p>
+        {% endif %}
+    </div>
+</body>
+</html>
